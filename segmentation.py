@@ -247,14 +247,12 @@ def add_vertical_path(image, path):
 
 
 
-########################### Part - 1 ###############################
-
 # Load the images
 cat_image = add_image('input/cat.jpg')
 sheep_image = add_image("input/sheep.jpg")
 dog_image = add_image("input/dog.jpg")
 
-########################## Part - 2 ################################
+
 
 def process_image(image, mask_path, output_name):
     """Processes an image: computes energy, reweights, removes path, and saves the result."""
@@ -274,7 +272,7 @@ removed_sheep = process_image(sheep_image, "input/sheep_mask.jpg", "output/remov
 # Process the Dog image
 removed_dog = process_image(dog_image, 'input/dog_mask.jpg', "output/removed_dog.jpg")
 
-########################## Part - 3 ################################
+
 
 def restore_and_save_image(removed_image, original_width, output_name):
     """Restores the image to its original width and saves it."""
