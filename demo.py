@@ -35,12 +35,12 @@ def display_comparison(original, processed, title="Before vs After"):
 
 def demo_object_removal():
     """Run the main demo with sample images."""
-    print("🎯 ManuelObjectVanish Demo")
-    print("=" * 40)
+    print("--- ManuelObjectVanish Demo ---")
+    print("----------------------------------------")
     
     # Check if input directory exists
     if not os.path.exists('input'):
-        print("❌ Input directory not found. Please ensure images are in the 'input' folder.")
+        print("Error: Input directory not found. Please ensure images are in the 'input' folder.")
         return
     
     # Process each sample image
@@ -51,18 +51,18 @@ def demo_object_removal():
     ]
     
     for image_name, mask_name, title in samples:
-        print(f"\n🔄 Processing {title}...")
+        print(f"\nProcessing: {title}")
         
         # Load image and mask
         image_path = f'input/{image_name}'
         mask_path = f'input/{mask_name}'
         
         if not os.path.exists(image_path):
-            print(f"⚠️  Skipping {title}: {image_path} not found")
+            print(f"Warning: Skipping {title}. Reason: {image_path} not found.")
             continue
             
         if not os.path.exists(mask_path):
-            print(f"⚠️  Skipping {title}: {mask_path} not found")
+            print(f"Warning: Skipping {title}. Reason: {mask_path} not found.")
             continue
         
         # Load and process
@@ -70,7 +70,7 @@ def demo_object_removal():
         mask = add_mask(mask_path)
         
         if original_image is None or mask is None:
-            print(f"❌ Failed to load {title}")
+            print(f"Error: Failed to load necessary files for {title}.")
             continue
         
         # Process the image
@@ -88,10 +88,10 @@ def demo_object_removal():
         # Create comparison with the final, restored image
         display_comparison(original_image, final_image, title)
         
-        print(f"✅ {title} completed successfully!")
+        print(f"Status: {title} completed successfully.")
     
-    print("\n🎉 Demo completed! Check the 'output' folder for results.")
-    print("\n📁 Generated files:")
+    print("\nDemo finished. Please check the 'output' folder for results.")
+    print("\nGenerated files in output directory:")
     for file in os.listdir('output'):
         if file.startswith('demo_') or file.endswith('_comparison.jpg'):
             print(f"   - {file}")

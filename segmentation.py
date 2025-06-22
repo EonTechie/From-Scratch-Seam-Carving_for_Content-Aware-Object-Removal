@@ -1,13 +1,16 @@
 """
-ManuelObjectVanish - Content-Aware Object Removal (Seam Carving) From Scratch
------------------------------------------------------------------------------
-This script implements the seam carving algorithm for object removal and content-aware image resizing
-**from scratch** using only NumPy for array operations and OpenCV for basic image I/O.
-No high-level image processing functions are used for the core algorithm.
+ManuelObjectVanish: A from-scratch implementation of the Seam Carving algorithm.
 
-- Dynamic programming for optimal seam finding
-- Mask-guided object removal
-- Educational and recruitment-ready code
+This script provides functions to intelligently remove objects from images
+using a content-aware image resizing technique known as Seam Carving.
+The core logic is implemented from the ground up using NumPy for numerical
+operations and OpenCV for basic image input/output.
+
+Key implementation details:
+- Energy function calculation based on image gradients.
+- Dynamic programming to find the optimal, lowest-energy seam.
+- Iterative seam removal for object deletion.
+- Seam insertion to restore the image to its original dimensions.
 """
 
 import cv2
@@ -315,5 +318,5 @@ if processed_chick is not None:
 if processed_object is not None:
     restore_and_save_image(processed_object, original_object_width, "output/final_object.jpg")
 
-print("\n🎉 Processing completed! Check the 'output' folder for results.")
+print("\nProcessing completed! Check the 'output' folder for results.")
 
