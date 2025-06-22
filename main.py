@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ManuelObjectVanish Demo Script
+ManuelObjectVanish Main Script
 ==============================
 
 This script demonstrates the object removal capabilities of the project.
@@ -30,13 +30,14 @@ def display_comparison(original, processed, title="Before vs After"):
     cv2.putText(comparison, "AFTER", (width1 + 10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
     
     # Save comparison
-    cv2.imwrite(f"output/{title.lower().replace(' ', '_')}_comparison.jpg", comparison)
-    print(f"Comparison saved: output/{title.lower().replace(' ', '_')}_comparison.jpg")
+    output_filename = f"output/{title.lower().replace(' ', '_')}_comparison.jpg"
+    cv2.imwrite(output_filename, comparison)
+    print(f"Comparison saved: {output_filename}")
 
-def demo_object_removal():
-    """Run the main demo with sample images."""
-    print("--- ManuelObjectVanish Demo ---")
-    print("----------------------------------------")
+def run_object_removal_pipeline():
+    """Run the main object removal pipeline with sample images."""
+    print("--- From-Scratch Seam Carving: Object Removal ---")
+    print("-------------------------------------------------")
     
     # Check if input directory exists
     if not os.path.exists('input'):
@@ -82,7 +83,7 @@ def demo_object_removal():
         final_image = restore_image_to_original_size(processed_image, original_image.shape[1])
         
         # Save final result
-        output_name = f"output/demo_{image_name.replace('.jpg', '')}_final.jpg"
+        output_name = f"output/{image_name.replace('.jpg', '')}_final.jpg"
         cv2.imwrite(output_name, final_image)
         
         # Create comparison with the final, restored image
@@ -90,15 +91,15 @@ def demo_object_removal():
         
         print(f"Status: {title} completed successfully.")
     
-    print("\nDemo finished. Please check the 'output' folder for results.")
+    print("\nProcessing finished. Please check the 'output' folder for results.")
     print("\nGenerated files in output directory:")
     for file in os.listdir('output'):
-        if file.startswith('demo_') or file.endswith('_comparison.jpg'):
+        if file.endswith('_final.jpg') or file.endswith('_comparison.jpg'):
             print(f"   - {file}")
 
 if __name__ == "__main__":
     # Create output directory if it doesn't exist
     os.makedirs('output', exist_ok=True)
     
-    # Run the demo
-    demo_object_removal() 
+    # Run the pipeline
+    run_object_removal_pipeline() 
