@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 # Load the image
-image_path = 'object_m.jpg'  # Path to the input image
+image_path = 'input/object.jpg'  # Path to the input image
 image = cv2.imread(image_path)
 if image is None:
     print("Failed to load the image. Please check the file path.")  # Error message if the image is not found
@@ -21,4 +21,5 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 # Save the generated mask
-cv2.imwrite('object_mask.jpg', mask)  # Save the mask as a file
+cv2.imwrite('input/object_mask.jpg', mask)  # Save the mask as a file
+print("Mask generated and saved as 'input/object_mask.jpg'")

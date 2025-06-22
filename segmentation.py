@@ -1,3 +1,15 @@
+"""
+ManuelObjectVanish - Content-Aware Object Removal (Seam Carving) From Scratch
+-----------------------------------------------------------------------------
+This script implements the seam carving algorithm for object removal and content-aware image resizing
+**from scratch** using only NumPy for array operations and OpenCV for basic image I/O.
+No high-level image processing functions are used for the core algorithm.
+
+- Dynamic programming for optimal seam finding
+- Mask-guided object removal
+- Educational and recruitment-ready code
+"""
+
 import cv2
 import numpy as np
 
@@ -248,45 +260,60 @@ def add_vertical_path(image, path):
 
 
 # Load the images
-cat_image = add_image('input/cat.jpg')
-sheep_image = add_image("input/sheep.jpg")
-dog_image = add_image("input/dog.jpg")
-
-
+ball_image = add_image('input/ball.jpg')
+chick_image = add_image("input/chick.jpg")
+object_image = add_image("input/object.jpg")
 
 def process_image(image, mask_path, output_name):
     """Processes an image: computes energy, reweights, removes path, and saves the result."""
+    if image is None:
+        print(f"Failed to load image for {output_name}")
+        return None
+    
     energy_matrix = compute_energy(image)
     mask = add_mask(mask_path)
+    
+    if mask is None:
+        print(f"Failed to load mask for {output_name}")
+        return None
+    
     reweighted_energy = reweight_energy(energy_matrix, mask)
     removed_image = iterative_object_removal(image, mask, reweighted_energy)
-    cv2.imwrite(output_name, removed_image)
-    return removed_image 
+    
+    print(f"Processed image for: {output_name}")
+    return removed_image
 
-# Process the Cat image
-removed_cat = process_image(cat_image, 'input/cat_mask.jpg', "output/removed_cat.jpg")
+# Process the Ball image
+processed_ball = process_image(ball_image, 'input/ball_mask.jpg', "output/removed_ball.jpg")
 
-# Process the Sheep image
-removed_sheep = process_image(sheep_image, "input/sheep_mask.jpg", "output/removed_sheep.jpg")
+# Process the Chick image
+processed_chick = process_image(chick_image, "input/chick_mask.jpg", "output/removed_chick.jpg")
 
-# Process the Dog image
-removed_dog = process_image(dog_image, 'input/dog_mask.jpg', "output/removed_dog.jpg")
+# Process the Object image
+processed_object = process_image(object_image, 'input/object_mask.jpg', "output/removed_object.jpg")
 
-
-
-def restore_and_save_image(removed_image, original_width, output_name):
+def restore_and_save_image(processed_image, original_width, output_name):
     """Restores the image to its original width and saves it."""
-    restored_image = restore_image_to_original_size(removed_image, original_width)
+    if processed_image is None:
+        print(f"Cannot restore {output_name} - no processed image available")
+        return
+    
+    restored_image = restore_image_to_original_size(processed_image, original_width)
     print(f"{output_name} Restored Shape: {restored_image.shape}")
     cv2.imwrite(output_name, restored_image)
 
 # Save original widths
-original_cat_width = cat_image.shape[1]
-original_sheep_width = sheep_image.shape[1]
-original_dog_width = dog_image.shape[1]
+original_ball_width = ball_image.shape[1] if ball_image is not None else 0
+original_chick_width = chick_image.shape[1] if chick_image is not None else 0
+original_object_width = object_image.shape[1] if object_image is not None else 0
 
 # Restore and save images
-restore_and_save_image(removed_cat, original_cat_width, "output/final_cat.jpg")
-restore_and_save_image(removed_sheep, original_sheep_width, "output/final_sheep.jpg")
-restore_and_save_image(removed_dog, original_dog_width, "output/final_dog.jpg")
+if processed_ball is not None:
+    restore_and_save_image(processed_ball, original_ball_width, "output/final_ball.jpg")
+if processed_chick is not None:
+    restore_and_save_image(processed_chick, original_chick_width, "output/final_chick.jpg")
+if processed_object is not None:
+    restore_and_save_image(processed_object, original_object_width, "output/final_object.jpg")
+
+print("\n🎉 Processing completed! Check the 'output' folder for results.")
 
